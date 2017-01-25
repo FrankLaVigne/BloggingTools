@@ -19,9 +19,10 @@ namespace BloggingUtilities.Video
             this.Url = videoPostUrl;
         }
 
-        public async void Parse()
+        public Task Parse()
         {
-            LoadHtml();
+            return Task.Run(() => LoadHtml());
+           
 
         }
 
@@ -29,12 +30,9 @@ namespace BloggingUtilities.Video
        
         protected async void LoadHtml()
         {
-
             var httpClient = new HttpClient();
             var response = await httpClient.GetAsync(this.Url);
-
             this.RawHtml = await response.Content.ReadAsStringAsync();
-
         }
 
 

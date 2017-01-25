@@ -9,16 +9,21 @@ namespace BloggingTools.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-
-            Channel9Post c9post = new Channel9Post("https://channel9.msdn.com/Shows/Data-Exposed/Big-Data-Partner-Program");
-            c9post.Parse();
+            Channel9Post c9post = await Load();
 
             var desc = c9post.Description;
             var raw = c9post.RawHtml;
 
             return View();
+        }
+
+        private static async Task<Channel9Post> Load()
+        {
+            Channel9Post c9post = new Channel9Post("https://channel9.msdn.com/Shows/Data-Exposed/Big-Data-Partner-Program");
+            await c9post.Parse();
+            return c9post;
         }
 
         public IActionResult About()
